@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot UI</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+  <div class="chat-container">
+    <div class="chat-header"> 🤖Chatbot</div>
+    <div class="chat-box">
+      <div class="message bot">
+        <div class="avatar">🤖</div>
+        <div class="text">
+          <p>Hey there 👋<br>How can I help you today?</p>
+        </div>
+      </div>
+
+      <div class="message user">
+        <div class="text">
+          <p>Hello</p>
+        </div>
+      </div>
+
+      <div class="message bot typing">
+        <div class="avatar">🤖</div>
+        <div class="text typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input type="text" placeholder="Message..." />
+      <div class="icons">
+        😊 🔗
+      </div>
+    </div>
+  </div>
 </body>
 </html>
