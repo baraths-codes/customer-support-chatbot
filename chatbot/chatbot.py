@@ -1,84 +1,77 @@
-import nltk
-import string
 import json
 import random
-import pickle
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.classify import NaiveBayesClassifier
+import string
+import nltk
+import numpy as np
 
-# Download necessary NLTK resources
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+# Download NLTK resources (only once)
 #nltk.download('punkt')
 #nltk.download('stopwords')
+#nltk.download('wordnet')
 
-# Load intents file (your JSON with intents, patterns, and responses)
-with open('./data/intents.json', 'r') as file:
-    intents = json.load(file)
+# Load intents file
+with open('./data/intents.json') as file:
+    data = json.load(file)
 
-# Preprocessing function to clean and tokenize text
+# Preprocessing functions
 stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer()
 
 def preprocess(text):
-    words = word_tokenize(text.lower())  # Tokenize the sentence into words
-    words = [word for word in words if word not in stop_words and word not in string.punctuation]
-    return words
+    tokens = word_tokenize(text.lower())
+    tokens = [word for word in tokens if word not in stop_words and word not in string.punctuation]
+    tokens = [lemmatizer.lemmatize(word) for word in tokens]
+    return ' '.join(tokens)  # Return as string for TF-IDF
 
-# Extract features based on word presence
-all_words = []
-for intent in intents['intents']:
+# Prepare training data
+sentences = []
+labels = []
+tags = []
+for intent in data['intents']:
+    tags.append(intent['tag'])
     for pattern in intent['patterns']:
-        words = preprocess(pattern)
-        all_words.extend(words)
+        sentences.append(preprocess(pattern))
+        labels.append(intent['tag'])
 
-# Get unique words (vocabulary)
-all_words = list(set(all_words))
+# Encode labels
+tags = sorted(set(tags))
+tag_to_index = {tag: i for i, tag in enumerate(tags)}
+index_to_tag = {i: tag for tag, i in tag_to_index.items()}
+y_train = np.array([tag_to_index[label] for label in labels])
 
-def extract_features(words):
-    features = {}
-    for word in all_words:
-        features[word] = (word in words)  # Binary feature: 1 if word is in the sentence, else 0
-    return features
+# TF-IDF Vectorizer
+vectorizer = TfidfVectorizer()
+X_train = vectorizer.fit_transform(sentences)
 
-# Prepare the training data
-training_data = []
-for intent in intents['intents']:
-    for pattern in intent['patterns']:
-        words = preprocess(pattern)
-        features = extract_features(words)
-        training_data.append((features, intent['tag']))
+# Train classifier
+model = LogisticRegression()
+model.fit(X_train, y_train)
 
-# Train the model (Naive Bayes Classifier)
-classifier = NaiveBayesClassifier.train(training_data)
+# Chat function
+def chat():
+    print("🤖 Bot: Hello! Type 'quit' to exit.")
+    while True:
+        user_input = input("🧑 You: ")
+        if user_input.lower() == 'quit':
+            print("🤖 Bot: Goodbye!")
+            break
+        processed_input = preprocess(user_input)
+        X_test = vectorizer.transform([processed_input])
+        prediction = model.predict(X_test)[0]
+        tag = index_to_tag[prediction]
 
-# Save the trained model using pickle
-with open('chatbot_model.pkl', 'wb') as model_file:
-    pickle.dump(classifier, model_file)
+        for intent in data['intents']:
+            if intent['tag'] == tag:
+                response = random.choice(intent['responses'])
+                print("🤖 Bot:", response)
+                break
 
-print("✅ Model trained and saved successfully!")
-
-# Function to get the response based on the intent
-def chatbot_response(user_input):
-    words = preprocess(user_input)
-    features = extract_features(words)
-    
-    # Predict the intent using the trained classifier
-    predicted_tag = classifier.classify(features)
-    
-    # Find the response for the predicted tag
-    for intent in intents['intents']:
-        if intent['tag'] == predicted_tag:
-            response = random.choice(intent['responses'])
-            return response
-
-# Start the chatbot (interactive)
-print("Chatbot is ready! Type 'exit' to quit.")
-while True:
-    user_input = input("You: ")
-    
-    if user_input.lower() == 'exit':
-        print("Goodbye!")
-        break
-    
-    # Get the bot's response
-    response = chatbot_response(user_input)
-    print(f"Bot: {response}")
+# Run the chatbot
+if __name__ == "__main__":
+    chat()
