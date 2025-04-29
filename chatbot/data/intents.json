@@ -2,108 +2,92 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Good evening"],
-      "responses": ["Hi there! How can I help you today?", "Hello! What can I do for you?"]
+      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Good evening", "Howdy", "What's up?", "Yo"],
+      "responses": ["Hi there! How can I help you today?", "Hello! What can I do for you?", "Hey! How can I assist you?"]
     },
     {
       "tag": "password_reset",
-      "patterns": ["I forgot my password", "How can I reset my password?", "Reset password"],
-      "responses": ["You can reset your password here: https://example.com/reset"]
+      "patterns": ["I forgot my password", "How can I reset my password?", "Reset password", "Help me with my password", "I can't log in"],
+      "responses": ["You can reset your password here: https://example.com/reset", "Please follow this link to reset your password: https://example.com/reset"]
     },
     {
       "tag": "working_hours",
-      "patterns": ["What are your working hours?", "When are you open?", "Office time"],
-      "responses": ["We're open from 9 AM to 5 PM, Monday to Friday."]
+      "patterns": ["What are your working hours?", "When are you open?", "Office time", "What time do you open?", "What time do you close?"],
+      "responses": ["We're open from 9 AM to 5 PM, Monday to Friday.", "Our working hours are 9 AM to 5 PM, Monday through Friday."]
     },
     {
       "tag": "refund",
-      "patterns": ["I want oa refund", "Refund request", "Return order"],
-      "responses": ["Please submit a refund request here: https://example.com/refund"]
+      "patterns": ["I want a refund", "Refund request", "Return order", "How do I get a refund?", "Can I return this product?"],
+      "responses": ["Please submit a refund request here: https://example.com/refund", "You can request a refund via this link: https://example.com/refund"]
     },
     {
       "tag": "contact",
-      "patterns": ["How can I contact support?", "Email support", "Phone number"],
-      "responses": ["You can contact us at support@example.com"]
+      "patterns": ["How can I contact support?", "Email support", "Phone number", "How can I reach customer service?", "Contact info"],
+      "responses": ["You can contact us at support@example.com or call us at +123456789.", "Feel free to reach us at support@example.com or call us anytime at +123456789."]
     },
     {
       "tag": "order_status",
-      "patterns": ["Where is my order?", "Order status", "Track my package"],
-      "responses": ["Check your order status here: https://example.com/order-status"]
+      "patterns": ["Where is my order?", "Order status", "Track my package", "Where's my order?", "Has my order shipped?"],
+      "responses": ["Check your order status here: https://example.com/order-status", "To track your order, visit: https://example.com/order-status"]
     },
     {
       "tag": "services",
-      "patterns": ["What services do you offer?", "Your services?", "What can you do?"],
-      "responses": ["We offer 24/7 support, order tracking, and technical assistance."]
+      "patterns": ["What services do you offer?", "Your services?", "What can you do?", "What services are available?", "Tell me about your services"],
+      "responses": ["We offer 24/7 support, order tracking, and technical assistance.", "We provide support services, order tracking, and technical help. Let us know what you need!"]
     },
     {
       "tag": "shipping",
-      "patterns": ["Do you ship internationally?", "International delivery?", "Shipping countries?"],
-      "responses": ["Yes! We offer international shipping to over 100 countries."]
+      "patterns": ["Do you ship internationally?", "International delivery?", "Shipping countries?", "Where do you ship to?", "Do you deliver worldwide?"],
+      "responses": ["Yes! We offer international shipping to over 100 countries.", "We ship worldwide to over 100 countries!"]
     },
     {
       "tag": "subscription_plans",
-      "patterns": [
-        "Example question about subscription plans"
-      ],
-      "responses": [
-        "We offer multiple subscription plans. Visit our pricing page to compare features and benefits."
-      ]
+      "patterns": ["What are your subscription plans?", "Tell me about your subscription options", "Do you have subscription plans?", "What plans do you offer?"],
+      "responses": ["We offer multiple subscription plans. Visit our pricing page to compare features and benefits: https://example.com/pricing", "Check our subscription plans and pricing here: https://example.com/pricing"]
     },
     {
       "tag": "track_order",
-      "patterns": [
-        "Example question about track order"
-      ],
-      "responses": [
-        "You can track your order using the tracking number sent to your email after shipping."
-      ]
+      "patterns": ["How can I track my order?", "Track my order", "Where is my package?", "Track order status", "I want to track my order"],
+      "responses": ["You can track your order using the tracking number sent to your email after shipping.", "Use the tracking number sent to your email to track your order here: https://example.com/track"]
     },
     {
       "tag": "cancel_order",
-      "patterns": [
-        "Example question about cancel order"
-      ],
-      "responses": [
-        "If your order hasn't shipped yet, you can cancel it from your orders page."
-      ]
+      "patterns": ["Can I cancel my order?", "How do I cancel an order?", "I want to cancel my order", "Cancel order"],
+      "responses": ["If your order hasn't shipped yet, you can cancel it from your orders page.", "You can cancel your order from your account page if it hasn't been shipped yet."]
     },
     {
       "tag": "return_item",
-      "patterns": [
-        "Example question about return item"
-      ],
-      "responses": [
-        "To return an item, go to your order history and select 'Return Item' next to the product."
-      ]
+      "patterns": ["How do I return an item?", "I want to return an item", "Return my product", "How can I return a product?"],
+      "responses": ["To return an item, go to your order history and select 'Return Item' next to the product.", "You can initiate a return from your order history page by clicking on 'Return Item'."]
     },
     {
       "tag": "wrong_item",
-      "patterns": [
-        "Example question about wrong item"
-      ],
-      "responses": [
-        "Apologies for the mistake. Please share a photo of the item and your order ID."
-      ]
+      "patterns": ["I received the wrong item", "Wrong item received", "I got the wrong product", "This is not what I ordered"],
+      "responses": ["Apologies for the mistake. Please share a photo of the item and your order ID, and we'll resolve it as soon as possible.", "Sorry for the confusion. Kindly send us a picture of the wrong item along with your order ID."]
     },
     {
       "tag": "damaged_item",
-      "patterns": [
-        "Example question about damaged item"
-      ],
-      "responses": [
-        "We\u2019re sorry to hear that! Please upload a photo of the damaged item and we\u2019ll assist you with a return or replacement."
-      ]
+      "patterns": ["The item is damaged", "I received a damaged item", "My product is broken", "The item is defective"],
+      "responses": ["We’re sorry to hear that! Please upload a photo of the damaged item and we’ll assist you with a return or replacement.", "Apologies for the inconvenience. Kindly upload a photo of the damaged product and we’ll assist you with a replacement or return."]
     },
     {
       "tag": "goodbye",
-      "patterns": ["Bye", "Goodbye", "See you", "Exit", "Quit"],
-      "responses": ["Goodbye! Have a great day 😊", "See you soon!"]
+      "patterns": ["Bye", "Goodbye", "See you", "Exit", "Quit", "Talk to you later"],
+      "responses": ["Goodbye! Have a great day 😊", "See you soon! Take care."]
     },
     {
       "tag": "help",
-      "patterns": ["I need help", "Can you help me?", "Help"],
-      "responses": ["Sure! Let me know what you're having trouble with."]
+      "patterns": ["I need help", "Can you help me?", "Help", "I need assistance", "I'm having trouble"],
+      "responses": ["Sure! Let me know what you're having trouble with.", "I'm here to help. Tell me what you need assistance with."]
+    },
+    {
+      "tag": "unknown",
+      "patterns": [],
+      "responses": [
+        "I'm sorry, I didn't understand that. Can you please rephrase?",
+        "I'm not sure I got that. Could you try saying it differently?",
+        "Oops! I didn’t catch that. Can you clarify?"
+      ]
     }
   ]
 }
-
