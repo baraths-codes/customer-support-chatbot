@@ -8,35 +8,93 @@
 </head>
 <body>
   <div class="chat-container">
-    <div class="chat-header"> 🤖Chatbot</div>
-    <div class="chat-box">
+    <div class="chat-header"> 🤖 Chatbot</div>
+
+    <div class="chat-box" id="chat-box">
+      <!-- Messages will go here -->
       <div class="message bot">
         <div class="avatar">🤖</div>
         <div class="text">
           <p>Hey there 👋<br>How can I help you today?</p>
         </div>
       </div>
-
-      <div class="message user">
-        <div class="text">
-          <p>Hello</p>
-        </div>
-      </div>
-
-      <div class="message bot typing">
-        <div class="avatar">🤖</div>
-        <div class="text typing-indicator">
-          <span></span><span></span><span></span>
-        </div>
-      </div>
     </div>
 
     <div class="chat-input">
-      <input type="text" placeholder="Message..." />
+      <input type="text" id="user-input" placeholder="Type a message..." />
       <div class="icons">
         😊 🔗
       </div>
     </div>
   </div>
+
+  <script>
+    const inputField = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+
+    // When the user presses Enter, send the message
+    inputField.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    });
+
+    // Send the message to Flask backend
+    async function sendMessage() {
+      const message = inputField.value.trim();
+      if (!message) return;  // Don't send empty messages
+
+      // Add user message to the chat
+      chatBox.innerHTML += `
+        <div class="message user">
+          <div class="text"><p>${message}</p></div>
+        </div>
+      `;
+      chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to bottom
+      inputField.value = "";  // Clear input field
+
+      // Show bot typing indicator
+      const typing = document.createElement("div");
+      typing.className = "message bot typing";
+      typing.innerHTML = `
+        <div class="avatar">🤖</div>
+        <div class="text typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      `;
+      chatBox.appendChild(typing);
+      chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll
+
+      // Make a POST request to the Flask backend
+      try {
+        const response = await fetch("http://127.0.0.1:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+        typing.remove();  // Remove typing indicator
+
+        // Add bot response
+        chatBox.innerHTML += `
+          <div class="message bot">
+            <div class="avatar">🤖</div>
+            <div class="text"><p>${data.response}</p></div>
+          </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to bottom
+      } catch (err) {
+        typing.remove();
+        chatBox.innerHTML += `
+          <div class="message bot">
+            <div class="avatar">🤖</div>
+            <div class="text"><p>⚠️ Error: Could not reach server.</p></div>
+          </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to bottom
+      }
+    }
+  </script>
 </body>
 </html>
