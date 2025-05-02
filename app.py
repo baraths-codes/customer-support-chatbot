@@ -5,6 +5,7 @@ import random
 import string
 import nltk
 import numpy as np
+from flask import Flask, render_template
 from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -54,6 +55,10 @@ model.fit(X_train, y_train)
 
 # Flask setup
 app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 CORS(app)  # This allows your frontend to access Flask API
 @app.route("/chat", methods=["POST"])
 def chat():
