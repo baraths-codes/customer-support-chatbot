@@ -25,3 +25,11 @@ This project is an AI-powered **Customer Support Chatbot** developed as part of 
    ```bash
    git clone https://github.com/baraths-codes/customer-support-chatbot.git
    cd customer-support-chatbot
+
+## Demo 
+
+Here is a demo of how the chatbot works:
+
+![Chatbot Demo](images/chatbot-demo1.png)
+![Chatbot Demo](images/chatbot-demo2.png)
+
