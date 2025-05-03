@@ -29,7 +29,10 @@ This project is an AI-powered **Customer Support Chatbot** developed as part of 
 ## Demo 
 
 Here is a demo of how the chatbot works:
+heres a deployment of chatbot link, 
+https://customer-support-chatbot-j8fd.onrender.com/
 
 ![Chatbot Demo](images/chatbot-demo1.png)
+
 ![Chatbot Demo](images/chatbot-demo2.png)
 
