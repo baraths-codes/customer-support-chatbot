@@ -1,100 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot UI</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-  <div class="chat-container">
-    <div class="chat-header"> 🤖 Chatbot</div>
-
-    <div class="chat-box" id="chat-box">
-      <!-- Messages will go here -->
-      <div class="message bot">
-        <div class="avatar">🤖</div>
-        <div class="text">
-          <p>Hey there 👋<br>How can I help you today?</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=send"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- If above linking not working, use instead of this. 
+         <link rel="stylesheet" href="/static/css/style.css" />
+-->
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header"><h2>ChatBot</h2></div>
+      <div class="chat-box" id="chat-box">
+        <!-- Messages will go here -->
+        <div class="message bot">
+          <div class="avatar">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="size-5"
+            >
+              <path
+                d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z"
+              />
+            </svg>
+          </div>
+          <div class="text">
+            <p>Hey there 👋<br />How can I help you today?</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="chat-input">
-      <input type="text" id="user-input" placeholder="Type a message..." />
-      <div class="icons">
-        😊 🔗
+      <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Type a message..." />
+        <button class="send-button" onclick="sendMessage()">
+          <span class="material-symbols-outlined"> send </span>
+        </button>
       </div>
     </div>
-  </div>
 
-  <script>
-    const inputField = document.getElementById("user-input");
-    const chatBox = document.getElementById("chat-box");
+    <script>
+      const inputField = document.getElementById("user-input");
+      const chatBox = document.getElementById("chat-box");
 
-    // When the user presses Enter, send the message
-    inputField.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        sendMessage();
-      }
-    });
+      // When the user presses Enter, send the message
+      inputField.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          sendMessage();
+        }
+      });
 
-    // Send the message to Flask backend
-    async function sendMessage() {
-      const message = inputField.value.trim();
-      if (!message) return;  // Don't send empty messages
+      // Send the message to Flask backend
+      async function sendMessage() {
+        const message = inputField.value.trim();
+        if (!message) return; // Don't send empty messages
 
-      // Add user message to the chat
-      chatBox.innerHTML += `
+        // Add user message to the chat
+        chatBox.innerHTML += `
         <div class="message user">
           <div class="text"><p>${message}</p></div>
         </div>
       `;
-      chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to bottom
-      inputField.value = "";  // Clear input field
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+        inputField.value = ""; // Clear input field
 
-      // Show bot typing indicator
-      const typing = document.createElement("div");
-      typing.className = "message bot typing";
-      typing.innerHTML = `
-        <div class="avatar">🤖</div>
+        // Show bot typing indicator
+        const typing = document.createElement("div");
+        typing.className = "message bot typing";
+        typing.innerHTML = `
+        <div class="avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+              <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+            </svg></div>
         <div class="text typing-indicator">
           <span></span><span></span><span></span>
         </div>
       `;
-      chatBox.appendChild(typing);
-      chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll
+        chatBox.appendChild(typing);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
 
-      // Make a POST request to the Flask backend
-      try {
-       const response = await fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: message })
-        });
+        // Make a POST request to the Flask backend
+        try {
+          const response = await fetch("/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: message }),
+          });
 
-        const data = await response.json();
-        typing.remove();  // Remove typing indicator
+          const data = await response.json();
+          typing.remove(); // Remove typing indicator
 
-        // Add bot response
-        chatBox.innerHTML += `
+          // Add bot response
+          chatBox.innerHTML += `
           <div class="message bot">
-            <div class="avatar">🤖</div>
+            <div class="avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+              <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+            </svg>
+            </div>
             <div class="text"><p>${data.response}</p></div>
           </div>
         `;
-        chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to bottom
-      } catch (err) {
-        typing.remove();
-        chatBox.innerHTML += `
+          chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+        } catch (err) {
+          typing.remove();
+          chatBox.innerHTML += `
           <div class="message bot">
-            <div class="avatar">🤖</div>
+            <div class="avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+              <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+            </svg></div>
             <div class="text"><p>⚠️ Error: Could not reach server.</p></div>
           </div>
         `;
-        chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scroll to bottom
+          chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+          function sendMessage() {
+            const input = document.getElementById("messageInput");
+            const chatBox = document.getElementById("chatBox");
+            const message = input.value.trim();
+
+            if (message === "") return;
+
+            // Create a new message element
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+            messageElement.innerText = message;
+
+            // Add the message to the chat container
+            chatBox.appendChild(messageElement);
+
+            // Clear the input and scroll down
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+          }
+
+          document
+            .getElementById("messageInput")
+            .addEventListener("keydown", function (e) {
+              if (e.key === "Enter") {
+                sendMessage();
+              }
+            });
+        }
       }
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>
