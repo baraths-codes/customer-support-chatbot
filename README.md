@@ -9,7 +9,6 @@ This project is an AI-powered **Customer Support Chatbot** developed as part of 
 - TF-IDF based vectorization
 - Intent classification using Logistic Regression
 - Fallback responses for unknown queries
-- Terminal-based user interaction
 
 ## Technologies Used
 
