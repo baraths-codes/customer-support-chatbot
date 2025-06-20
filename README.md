@@ -17,7 +17,8 @@ This project is an AI-powered **Customer Support Chatbot** developed as part of 
 - NLTK  
 - scikit-learn  
 - NumPy  
-- Pandas  
+- Pandas
+- Render for deployment
 
 ## Installation
 
